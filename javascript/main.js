@@ -84,7 +84,7 @@ changesButton.onclick = function () {
     }
     else {
         showingChanges = true;
-        changes.style.height = "100px";
+        changes.style.height = "200px";
         changesButton.classList.add("selected");
         if (showingSettings) {
             showingSettings = false;
@@ -116,7 +116,7 @@ var ProceduralLanguage = /** @class */ (function () {
         if (yesNo === void 0) { yesNo = false; }
         var result = [];
         var flip = yesNo && this.questionsReverseOrder;
-        for (var i = 0; i <= 2; i++) {
+        for (var i = 0; i <= 3; i++) {
             var original = this.wordOrder[i] == "s" ? (flip ? ver : sub) : this.wordOrder[i] == "v" ? (flip ? sub : ver) : this.wordOrder[i] == "o" ? obj : iobj;
             if (original.length) {
                 var total = [];
@@ -138,7 +138,7 @@ var ProceduralLanguage = /** @class */ (function () {
         if (yesNo === void 0) { yesNo = false; }
         var result = [];
         var flip = yesNo && this.questionsReverseOrder;
-        for (var i = 0; i <= 2; i++) {
+        for (var i = 0; i <= 3; i++) {
             var original = this.wordOrder[i] == "s" ? (flip ? ver : sub) : this.wordOrder[i] == "v" ? (flip ? sub : ver) : this.wordOrder[i] == "o" ? obj : iobj;
             if (original.length) {
                 var total = [];
@@ -169,7 +169,7 @@ var currentLang = -1;
 var cons = ["w", "r", "t", "p", "s", "d", "j", "k", "l", "z", "v", "b", "n", "m"];
 var vows = ["a", "e", "i", "o", "u"];
 function randomSyllable() {
-    return choice(cons) + choice(vows) + (Math.random() < 0.4 ? choice(cons) : "");
+    return (Math.random() < 0.9 ? choice(cons) : "") + choice(vows) + (Math.random() < 0.3 ? choice(cons) : "");
 }
 function generateLanguage() {
     var l = new ProceduralLanguage();
@@ -181,15 +181,15 @@ function generateLanguage() {
     // Add simple words
     for (var _i = 0, _a = ["question", "pronoun", "ownership", "indicator", "is", "not", "can", "know", "go", "and", "1", "2", "3", "4", "5"]; _i < _a.length; _i++) {
         var i = _a[_i];
-        var candidate = void 0;
-        while (!candidate || Object.values(l.rootList).includes(candidate))
+        var candidate = "";
+        while (candidate.length < 1 || Object.values(l.rootList).includes(candidate))
             candidate = randomSyllable() + (Math.random() < 0.3 ? randomSyllable() : "");
         l.rootList[i] = candidate;
     }
     // Add complicated words
     for (var _b = 0, _c = [
         ["Rivu"], ["Survi"],
-        ["hello"], ["name"], ["awaken"], ["sleep"], ["cat"], ["patient"], ["close"], ["door"], ["room"], ["name"], ["good"],
+        ["hello"], ["awaken"], ["sleep"], ["cat"], ["patient"], ["close"], ["door"], ["room"], ["good"],
         ["who", "question"], ["what", "question"],
         ["i", "pronoun"], ["you", "pronoun"],
         ["my", "i", "ownership"], ["your", "you", "ownership"],
@@ -198,10 +198,12 @@ function generateLanguage() {
     ]; _b < _c.length; _b++) {
         var i = _c[_b];
         // If a word has a root associated with it, it'll usually use the root, but it also has a chance to be a completely random word.
-        var candidate = void 0;
-        while (!candidate || Object.values(l.rootList).includes(candidate)) {
-            var rootWord = (Math.random() < l.useRootChance && i.length > 1) ? (i.length >= 3 ? l.rootList[i[1]] + l.rootList[i[2]] : l.rootList[i[1]]) : randomSyllable();
-            var suffix = (Math.random() < 1 - 0.3 * i.length ? randomSyllable() : "") + (Math.random() < 0.2 ? randomSyllable() : "");
+        var candidate = "";
+        while (candidate.length < 1 || Object.values(l.rootList).includes(candidate)) {
+            var rootWord = (Math.random() < l.useRootChance && i.length > 1)
+                ? l.rootList[i[1]] + (i.length >= 3 ? l.rootList[i[2]] : randomSyllable())
+                : (randomSyllable() + randomSyllable());
+            var suffix = (Math.random() < 0.3 ? randomSyllable() : "") + (Math.random() < 0.1 ? randomSyllable() : "");
             candidate = l.rootsGoFirst ? rootWord + suffix : suffix + rootWord;
         }
         if (i[0][0].toUpperCase() == i[0][0])
@@ -227,9 +229,9 @@ beginButton.onclick = function () {
     var awakenChamber = function () { return toki ? "tomo pi kama lape ala" : l.f_translate("awaken") + " Chamber"; };
     var scene1 = new Scene(awakenChamber, "You find yourself in a room you've never seen before. The sound of a door slamming shut echoes in your mind, but you can't tell from where.", [
         { name: "Look around", click: function () {
-                new Scene(awakenChamber, function () { return "This area seems pretty barren. As you look around, someone comes into the room and waves to you. 'a, ".concat(toki ? "sina lape ala. nimi sina li seme" : l.f_translate("you", "awaken") + ". " + l.f_translate("you", "is", "who"), "?'<br/>They look like they're barely staying awake..."); }, [
+                new Scene(awakenChamber, function () { return "This area seems pretty barren. As you look around, someone comes into the room and waves to you. 'a, ".concat(toki ? "sina lape ala" : l.f_translate("you", "awaken"), ".'<br/>They look like they're barely staying awake..."); }, [
                     { name: "'huh what?'", click: function () {
-                            new Scene(awakenChamber, function () { return "The ".concat(toki ? "soweliko" : l.f_translate("cat"), " sighs...<br/>'... ").concat(toki ? "mi ken pana e sona pona tawa sina" : l.f_translate("i", "can teach", "you") + ". " + l.f_translate("", "come"), ".'"); }, [
+                            new Scene(awakenChamber, function () { return "The ".concat(toki ? "soweliko" : l.f_translate("cat"), " sighs...<br/>'... ").concat(toki ? "mi ken pana e sona pona tawa sina" : l.f_translate("i", "can teach", "you") + ". " + l.f_translate("", "go"), ".'"); }, [
                                 { name: "Go outside", click: function () { inevitability.load(); } }
                             ]).load();
                         } },
@@ -239,51 +241,56 @@ beginButton.onclick = function () {
                             ]).load();
                         } }
                 ]).load();
-                var inevitability = new Scene("Chamber I", function () { return "The ".concat(toki ? "soweliko" : l.f_translate("cat"), " leads you out of the room into a large hall. They close your door and enter a code on the wall next to it.\n      '").concat(toki ? "mi pini e lupa" : l.f_translate("i", "close", "door"), ".'"); }, [
-                    { name: "Try to read the code", click: function () {
-                            new Scene("Chamber I", function () { return "You manage to look over their shoulder as they're entering the code. It reads: ".concat(toki ? "1 2 5" : ["1", "2", "5"].map(function (x) { return l.f_translate(x); }).join(" "), "."); }, [
-                                { name: "'who are you?'", click: function () {
-                                        introductions.load();
-                                    } },
-                                { name: "Enter that code again", click: function () {
-                                        new Scene("Chamber I", "The door opens.", [
-                                            { name: "Go back inside", click: function () { } }
-                                        ]).load();
-                                    } }
-                            ]).load();
-                        } },
-                    { name: "Just wait", click: function () {
-                            introductions.load();
-                        } }
-                ]);
-                var introductions = new Scene("Chamber I", function () { return "'".concat(toki ? "mi jan Wisu" : l.f_translate("i", "is", "Rivu"), ".' They pause for a moment. '").concat(toki ? "sina jan seme" : l.f_translate("who", "is", "you"), "?'"); }, [
-                    { name: "'... " + (toki ? "jan Suwiko" : l.translate("Survi")) + "?'", click: function () {
-                            new Scene("Chamber I", function () { return "'".concat(toki ? "ni li nimi sina" : l.f_translate("that", "is", "your name"), "? a... ").concat(toki ? "jan Wisu en jan Suwiko" : ["Rivu", "and", "Survi"].map(function (x) { return l.f_translate(x); }).join(" "), ".'<br/>\n          ").concat(toki ? "jan Wisu" : l.f_translate("Rivu"), " points at the door you just came through. '").concat(toki ? "ni li tomo sina" : l.f_translate("this", "is", "your awaken room"), ".'"); }, [
-                                { name: l.translate("my awaken room") + "?", click: function () {
-                                        new Scene("Chamber I", function () { return "'a.'<br/>".concat(toki ? "jan Wisu" : l.f_translate("Rivu"), " looks pretty tired... '").concat(toki ? "mi kama lape" : l.f_translate("i", "go sleep") + ". " + l.f_translate("sleep") + "- " + l.f_translate("not awaken"), ".'"); }).load();
-                                    } }
-                            ]).load();
-                        } },
-                    { name: "Stay silent", click: function () {
-                            new Scene("Chamber I", function () { return "'... ".concat(toki ? "seme" : l.f_translate("what"), "?'"); }, [
-                                { name: "'you can call me whatever I guess'", click: function () {
-                                        new Scene("Chamber I", function () { return "'".concat(toki ? "sina jan Suwiko? pona" : l.f_translate("you", "is", "Survi", "", true) + "? " + l.f_translate("good"), ".' They pause for a moment, seemingly trying to remember what they were thinking about...<br/>\n              '... ").concat(toki ? "mi pana e sona" : l.f_translate("i", "go teach", "you"), ".'"); }).load();
-                                    } },
-                                { name: "Continue staying silent", click: function () {
-                                        new Scene("Chamber I", "...").load();
-                                    } }
-                            ]).load();
-                        } }
-                ]);
             } },
         { name: "Try to exit the room", click: function () {
                 new Scene(awakenChamber, function () { return "The door clangs. You hear the sound of a code being entered on the other side... you feel like you might have attracted some attention."; }, [
                     { name: "Bang on the door more", click: function () {
-                            new Scene(awakenChamber, function () { return "You hear a voice from the other side of the door. '".concat(toki ? "sina ken ala awen...?" : l.f_translate("you", "is", "not patient") + "...", "'"); }).load();
+                            new Scene(awakenChamber, function () { return "You hear a voice from the other side of the door. '".concat(toki ? "sina ken ala awen...?" : l.f_translate("you", "is", "not patient") + "...", "'"); }, [
+                                { name: "'sorry what'", click: function () {
+                                        new Scene(awakenChamber, function () { return "'".concat(toki ? "sina wile kama lon poka mi" : l.f_translate("you and me", "go"), "?'"); }).load();
+                                    } }
+                            ]).load();
                         } }
                 ]).load();
             } }
     ]);
-    var scene2;
+    var inevitability = new Scene("Chamber I", function () { return "The ".concat(toki ? "soweliko" : l.f_translate("cat"), " leads you out of the room into a large hall. They close your door and enter a code on the wall next to it.\n  '").concat(toki ? "mi pini e lupa" : l.f_translate("i", "close", "door"), ".'"); }, [
+        { name: "Try to read the code", click: function () {
+                new Scene("Chamber I", function () { return "You manage to look over their shoulder as they're entering the code. It reads: ".concat(toki ? "1 2 5" : ["1", "2", "5"].map(function (x) { return l.f_translate(x); }).join(" "), "."); }, [
+                    { name: "'who are you?'", click: function () {
+                            introductions.load();
+                        } },
+                    { name: "Enter that code again", click: function () {
+                            new Scene("Chamber I", "The door opens.", [
+                                { name: "Go back inside", click: function () {
+                                        new Scene(awakenChamber, "".concat(toki ? "jan Wisu" : l.f_translate("Rivu"), " allows you to go back inside.<br/>'").concat(toki ? "o lape pona" : l.f_translate("good sleep"), "...'")).load();
+                                    } }
+                            ]).load();
+                        } }
+                ]).load();
+            } },
+        { name: "Just wait", click: function () {
+                introductions.load();
+            } }
+    ]);
+    var introductions = new Scene("Chamber I", function () { return "'".concat(toki ? "mi jan Wisu" : l.f_translate("i", "is", "Rivu"), ".' They pause for a moment. '").concat(toki ? "sina jan seme" : l.f_translate("who", "is", "you"), "?'"); }, [
+        { name: "'... " + (toki ? "jan Suwiko" : l.translate("Survi")) + "?'", click: function () {
+                new Scene("Chamber I", function () { return "'".concat(toki ? "ni li nimi sina" : l.f_translate("that", "is", "you"), "? a... ").concat(toki ? "jan Wisu en jan Suwiko" : ["Rivu", "and", "Survi"].map(function (x) { return l.f_translate(x); }).join(" "), ".'<br/>\n      ").concat(toki ? "jan Wisu" : l.f_translate("Rivu"), " points at the door you just came through. '").concat(toki ? "ni li tomo sina" : l.f_translate("this", "is", "your awaken room"), ".'"); }, [
+                    { name: l.translate("my awaken room") + "?", click: function () {
+                            new Scene("Chamber I", function () { return "'a.'<br/> You notice ".concat(toki ? "jan Wisu" : l.f_translate("Rivu"), " looks tired... '").concat(toki ? "mi kama lape" : l.f_translate("i", "go sleep") + ". " + l.f_translate("sleep") + "- " + l.f_translate("not awaken"), ".'"); }).load();
+                        } }
+                ]).load();
+            } },
+        { name: "Stay silent", click: function () {
+                new Scene("Chamber I", function () { return "'... ".concat(toki ? "seme" : l.f_translate("what"), "?'"); }, [
+                    { name: "'you can call me whatever I guess'", click: function () {
+                            new Scene("Chamber I", function () { return "'".concat(toki ? "sina jan Suwiko? pona" : l.f_translate("you", "is", "Survi", "", true) + "? " + l.f_translate("good"), ".' They pause for a moment, seemingly trying to remember what they were thinking about...<br/>\n          '... ").concat(toki ? "mi pana e sona" : l.f_translate("i", "go teach", "you"), ".'"); }).load();
+                        } },
+                    { name: "Continue staying silent", click: function () {
+                            new Scene("Chamber I", "...").load();
+                        } }
+                ]).load();
+            } }
+    ]);
     scene1.load();
 };

@@ -2,6 +2,11 @@
   font-family: JetLight;
   src: url(../assets/jetbrains-light.ttf);
 }
+@keyframes spooky {
+  0% { opacity: 1; }
+  50% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
 body {
   background: #001;
   color: white;
@@ -9,6 +14,7 @@ body {
 }
 .ethereal {
   color: #47f;
+  animation: spooky 3s infinite;
 }
 .menu {
   position: absolute;
