@@ -1,0 +1,95 @@
+@font-face {
+  font-family: JetLight;
+  src: url(../assets/jetbrains-light.ttf);
+}
+body {
+  background: #001;
+  color: white;
+  font-family: JetLight;
+}
+.ethereal {
+  color: #47f;
+}
+.menu {
+  position: absolute;
+  left: 0; top: 0; width: 100%; height: 100%;
+  padding: 15px;
+  transition: 0.5s;
+}
+.subtitle {
+  color: #aaa;
+  left: 10px;
+  width: 80%;
+}
+.menu-buttons {
+  position: absolute;
+  top: 30%;
+  width: 100%;
+}
+#word-buttons {
+  top: unset;
+}
+.menu-buttons > div {
+  padding: 10px 0px 10px 20px;
+  margin-bottom: 10px;
+  background: linear-gradient(to right, #227, #0000);
+  border-radius: 30px;
+  cursor: e-resize;
+  transition: 0.4s;
+  opacity: 0.7;
+  user-select: none;
+}
+.menu-buttons > div.selected {
+  background: linear-gradient(to right, #44f, #0000);
+  opacity: 0.8;
+  margin-left: 40px;
+  cursor: w-resize;
+}
+.menu-buttons > div:hover {
+  background: linear-gradient(to right, #47f, #0000);
+  opacity: 1;
+  margin-left: 10px;
+}
+.menu-buttons > div.selected:hover {
+  margin-left: 50px;
+}
+.expandable {
+  position: absolute;
+  top: calc(30% + 180px);
+  height: 0px;
+  overflow: clip;
+  transition: 0.4s;
+}
+.tool > span {
+  position: absolute;
+  background: black;
+  color: white;
+  border: 1px solid white;
+  padding: 5px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+  font-size: 14px;
+  translate: 0px 24px;
+  user-select: none;
+}
+.tool:hover > span {
+  opacity: 1;
+}
+.clickable {
+  cursor: pointer;
+}
+#word-modal {
+  background: #000a;
+}
+#word-input {
+  padding: 5px;
+  background: #227;
+  border-radius: 1px;
+  border: 1px solid white;
+  color: white;
+  font-family: JetLight;
+}
+#changelog > h4 {
+  color: #47f;
+}

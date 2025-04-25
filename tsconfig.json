@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "outDir": "javascript",
+    "lib": ["es2017", "dom"]
+  }
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<head>
+  <title>What have I become?</title>
+  <link rel="stylesheet" href="./styles/main.css">
+  <link rel="stylesheet" href="./styles/betterCheckbox.css">
+</head>
+<body>
+  <!-- Main Menu -->
+  <div id="main-menu" class="menu">
+    <h2 class="title">A Chamber in the Void <span style="color:#aaa; font-size:15px">v0.1</span></h2>
+    <p class="subtitle">
+      You've always been fascinated by the strange <span class="ethereal tool">Ethereal<span>this is a tooltip! wawa :3</span></span> language, by the way it seems to twist and morph
+      every time it is examined. Hopefully, you'll finally be able to make sense of it this time...?
+    </p>
+    <div class="menu-buttons">
+      <div id="begin-button">Begin</div>
+      <div id="settings-button">Settings</div>
+      <div id="changelog-button">Changelog</div>
+    </div>
+    <br/>
+    <div id="settings" class="expandable">
+      <label class="checkboxer">
+        <input type="checkbox" id="tokipona"> <span class="checkmark"></span> Use toki pona
+      </label>
+    </div>
+    <div id="changelog" class="expandable">
+      <h4>v0.1</h4>
+      General concept is pretty much laid out. Now I just need content.
+    </div>
+  </div>
+  <!-- Various Other Things -->
+  <div id="core-menu" class="menu" style="top: -100%;">
+    <h2 class="title" id="scene-title"></h2>
+    <p class="subtitle" id="scene-description"></p>
+    <div class="menu-buttons" id="scene-options"></div>
+  </div>
+  <!-- Modal Thing -->
+   <div id="word-modal" class="menu" style="top: -100%;">
+    <span>Record your guess for <span id="word"></span>:</span> <input id="word-input">
+    <br/><br/><br/>
+    <div class="menu-buttons" id="word-buttons">
+      <div id="word-set">Set</div>
+      <div id="word-cancel">Cancel</div>
+    </div>
+   </div>
+  <!-- Scripts -->
+  <script src="./javascript/main.js"></script>
+</body>
